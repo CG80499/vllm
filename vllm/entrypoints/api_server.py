@@ -35,14 +35,14 @@ async def generate(request: Request) -> Response:
     results_generator = engine.generate(prompt, sampling_params, request_id)
 
     # Streaming case
-    async def stream_results() -> AsyncGenerator[bytes, None]:
+    async def stream_results() -> AsyncGenerator[str, None]:
         async for request_output in results_generator:
             prompt = request_output.prompt
             text_outputs = [
                 prompt + output.text for output in request_output.outputs
             ]
             ret = {"text": text_outputs}
-            yield (json.dumps(ret) + "\0").encode("utf-8")
+            yield "data: " + json.dumps(ret) + "\n"
 
     if stream:
         return StreamingResponse(stream_results())
