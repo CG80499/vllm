@@ -41,8 +41,9 @@ async def generate(request: Request) -> Response:
             text_outputs = [
                 prompt + output.text for output in request_output.outputs
             ]
+            print("text_outputs", text_outputs[0])
             ret = {"text": text_outputs}
-            yield "data: " + json.dumps(ret) + "\n"
+            yield "data: " + json.dumps(ret) + "\n\n"
 
     if stream:
         return StreamingResponse(stream_results())
@@ -64,6 +65,7 @@ async def generate(request: Request) -> Response:
 
 
 if __name__ == "__main__":
+    print("updated streaming")
     parser = argparse.ArgumentParser()
     parser.add_argument("--host", type=str, default=None)
     parser.add_argument("--port", type=int, default=8000)
