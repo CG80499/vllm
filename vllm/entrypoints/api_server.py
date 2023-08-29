@@ -46,7 +46,7 @@ async def generate(request: Request) -> Response:
                 prompt + output.text for output in request_output.outputs
             ]
             ret = {"text": text_outputs}
-            yield "data: " + json.dumps(ret).replace("\n", "<|newline|>") + "\n\n"
+            yield "data: " + json.dumps(ret) + "\n\n"
 
     if stream:
         return StreamingResponse(stream_results(), media_type="text/plain")
