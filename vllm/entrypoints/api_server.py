@@ -16,6 +16,10 @@ TIMEOUT_TO_PREVENT_DEADLOCK = 1  # seconds.
 app = FastAPI()
 engine = None
 
+@app.get("/healthz")
+async def healthz():
+    """Health check endpoint."""
+    return "OK"
 
 @app.post("/generate")
 async def generate(request: Request) -> Response:
@@ -41,12 +45,11 @@ async def generate(request: Request) -> Response:
             text_outputs = [
                 prompt + output.text for output in request_output.outputs
             ]
-            print("text_outputs", text_outputs[0])
             ret = {"text": text_outputs}
             yield "data: " + json.dumps(ret) + "\n\n"
 
     if stream:
-        return StreamingResponse(stream_results())
+        return StreamingResponse(stream_results(), media_type="text/plain")
 
     # Non-streaming case
     final_output = None
