@@ -11,6 +11,7 @@ from vllm.engine.ray_utils import initialize_cluster, ray
 from vllm.logger import init_logger
 from vllm.outputs import RequestOutput
 from vllm.sampling_params import SamplingParams
+from typing import Union
 
 logger = init_logger(__name__)
 
