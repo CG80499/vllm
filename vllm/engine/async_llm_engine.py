@@ -228,7 +228,6 @@ class _AsyncLLMEngine(LLMEngine):
             assert output == other_output
         return output
 
-
 class AsyncLLMEngine:
     """An asynchronous wrapper for LLMEngine.
 
